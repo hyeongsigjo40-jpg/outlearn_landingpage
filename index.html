@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>OutLearn - 영어 공부하면 릴스가 만들어진다고?</title>
+<meta property="og:title" content="OutLearn"/>
+<meta property="og:description" content="오늘 배운 영어 표현을 내 상황에 맞는 말하기 릴스로 바꿔주는 AI 영어학습 서비스"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    background: #fff;
+  }
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F4F2FF;
+    color: #1A1040;
+    overflow-x: hidden;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ───── HERO ───── */
+  .hero {
+    background: linear-gradient(160deg, #EDE9FF 0%, #F0EEFF 50%, #E8F0FF 100%);
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 52px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -30%;
+    width: 70%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    background: rgba(124,92,252,0.1);
+    color: #7C5CFC;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+  .hero-headline {
+    font-size: clamp(30px, 8.5vw, 48px);
+    font-weight: 900;
+    line-height: 1.2;
+    color: #1A1040;
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+  }
+  .hero-headline em {
+    font-style: normal;
+    color: #7C5CFC;
+  }
+  /* 히어로 이미지 */
+  .hero-image-wrap {
+    width: calc(100% + 48px);
+    margin: 24px -24px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-image-wrap img {
+    width: 100%;
+    display: block;
+  }
+  .hero-image-wrap .hero-cta {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 340px;
+    margin: 0;
+    white-space: nowrap;
+  }
+  /* 이미지 없을 때 플레이스홀더 */
+  .hero-image-placeholder {
+    width: calc(100% + 48px);
+    height: 480px;
+    margin: 24px -24px 28px;
+    background: linear-gradient(135deg, #E8E2FF, #D8EEFF);
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #9B8EC4;
+    font-size: 13px;
+    box-shadow: 0 20px 60px rgba(124,92,252,0.12);
+  }
+  .hero-image-placeholder span { font-size: 48px; }
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1A1040;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+  .hero-sub-small {
+    font-size: 13px;
+    color: #7A6AAA;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .hero-cta {
+    background: linear-gradient(90deg, #7C5CFC 0%, #5B8EFF 100%);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 900;
+    padding: 18px 28px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 340px;
+    box-shadow: 0 8px 28px rgba(124,92,252,0.35);
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: rgba(124,92,252,0.4);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .scroll-dot {
+    width: 1px; height: 24px;
+    background: linear-gradient(to bottom, rgba(124,92,252,0.4), transparent);
+    animation: scrollDown 1.5s ease-in-out infinite;
+  }
+  @keyframes scrollDown {
+    0%,100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ───── TICKER ───── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: linear-gradient(90deg, #7C5CFC, #5B8EFF);
+    padding: 11px 0;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-flex;
+    animation: ticker 22s linear infinite;
+  }
+  .ticker-item { font-size: 12px; font-weight: 700; color: #fff; padding: 0 20px; }
+  .ticker-dot { color: rgba(255,255,255,0.4); padding: 0 2px; }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ───── COMMON SECTION ───── */
+  .section { padding: 64px 24px; }
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7C5CFC;
+    background: rgba(124,92,252,0.1);
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(22px, 6vw, 30px);
+    font-weight: 900;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: #1A1040;
+  }
+  .section-body {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #6B5B95;
+  }
+
+  /* ───── PROBLEM ───── */
+  .problem-bg { background: #F4F2FF; }
+  .problem-quote {
+    background: #fff;
+    border-left: 4px solid #7C5CFC;
+    padding: 18px;
+    border-radius: 0 16px 16px 0;
+    margin: 24px 0;
+    font-size: 14px;
+    font-style: italic;
+    color: #3D2D80;
+    line-height: 1.7;
+    box-shadow: 0 2px 12px rgba(124,92,252,0.07);
+  }
+  .problem-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .problem-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #3D2D80;
+    line-height: 1.6;
+    background: #fff;
+    padding: 14px 16px;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(124,92,252,0.06);
+  }
+  .problem-list li::before {
+    content: '😮';
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ───── HOW IT WORKS ───── */
+  .how-bg {
+    background: linear-gradient(160deg, #EDE9FF 0%, #E8F0FF 100%);
+  }
+  .how-bg .section-label { color: #5B4AC8; background: rgba(91,74,200,0.1); }
+  .how-bg .section-title { color: #1A1040; }
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .step {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px 18px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    box-shadow: 0 4px 16px rgba(124,92,252,0.08);
+  }
+  .step-num {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C5CFC, #5B8EFF);
+    color: #fff;
+    font-weight: 900;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; }
+  .step-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1A1040;
+    margin-bottom: 6px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: #6B5B95;
+    line-height: 1.65;
+  }
+  .step-tag {
+    display: inline-block;
+    background: rgba(124,92,252,0.1);
+    color: #6040D8;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-top: 8px;
+  }
+
+  /* ───── FEATURE ───── */
+  .feature-bg { background: #F4F2FF; }
+  .feature-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 36px 24px;
+    border-bottom: 1px solid rgba(124,92,252,0.08);
+  }
+  .feature-row:last-child { border-bottom: none; }
+  .feature-row.reverse { flex-direction: row-reverse; }
+  .feature-text { flex: 1; }
+  .feature-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7C5CFC;
+    background: rgba(124,92,252,0.1);
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+  }
+  .feature-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: #1A1040;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .feature-desc {
+    font-size: 13px;
+    color: #6B5B95;
+    line-height: 1.7;
+  }
+  .feature-image {
+    flex-shrink: 0;
+    width: 140px;
+    height: 200px;
+    background: rgba(124,92,252,0.08);
+    border-radius: 16px;
+    border: 2px dashed rgba(124,92,252,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #9B8EC4;
+    font-size: 11px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .feature-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+  }
+  .feature-image-icon { font-size: 28px; }
+
+  /* ───── RESULT ───── */
+  .result-bg { background: #F4F2FF; }
+  .result-card {
+    background: linear-gradient(135deg, #7C5CFC 0%, #5B8EFF 100%);
+    border-radius: 24px;
+    padding: 28px 22px;
+    margin-top: 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(124,92,252,0.3);
+  }
+  .result-card::before {
+    content: '🎯';
+    position: absolute;
+    right: 20px; top: 20px;
+    font-size: 52px;
+    opacity: 0.2;
+  }
+  .result-card-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+  }
+  .result-card-title span { color: #C8BCFF; }
+  .result-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .result-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.6;
+  }
+  .result-list li::before {
+    content: '✓';
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+    font-weight: 900;
+    font-size: 11px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ───── VS ───── */
+  .vs-bg { background: linear-gradient(160deg, #EDE9FF, #E8F0FF); }
+  .vs-bg .section-label { color: #5B4AC8; background: rgba(91,74,200,0.1); }
+  .vs-bg .section-title { color: #1A1040; }
+  .vs-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 28px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(124,92,252,0.1);
+  }
+  .vs-table thead th {
+    padding: 14px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .vs-table thead th:first-child {
+    background: #DDD8F8;
+    color: #5B4AC8;
+    width: 42%;
+    text-align: left;
+    padding-left: 16px;
+  }
+  .vs-table thead th:nth-child(2) {
+    background: #CEC8F0;
+    color: #7B70B8;
+    width: 25%;
+  }
+  .vs-table thead th:last-child {
+    background: linear-gradient(90deg, #7C5CFC, #5B8EFF);
+    color: #fff;
+    width: 33%;
+  }
+  .vs-table tbody td {
+    padding: 12px 10px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(124,92,252,0.06);
+  }
+  .vs-table tbody td:first-child {
+    background: #fff;
+    color: #3D2D80;
+    font-weight: 500;
+    padding-left: 16px;
+  }
+  .vs-table tbody td:nth-child(2) {
+    background: #FAF8FF;
+    text-align: center;
+    color: #bbb;
+    font-size: 17px;
+  }
+  .vs-table tbody td:last-child {
+    background: rgba(124,92,252,0.05);
+    text-align: center;
+    color: #7C5CFC;
+    font-size: 17px;
+    font-weight: 900;
+  }
+  .vs-table tbody tr:last-child td { border-bottom: none; }
+
+  /* ───── SOCIAL PROOF ───── */
+  .proof-bg { background: #F4F2FF; }
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .proof-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(124,92,252,0.08);
+    border: 1px solid rgba(124,92,252,0.1);
+  }
+  .proof-card-quote {
+    font-size: 14px;
+    color: #3D2D80;
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  .proof-card-author { display: flex; align-items: center; gap: 10px; }
+  .proof-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C5CFC, #5B8EFF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .proof-name { font-size: 13px; font-weight: 700; color: #1A1040; }
+  .proof-role { font-size: 11px; color: #9B8EC4; margin-top: 2px; }
+  .stars { color: #7C5CFC; font-size: 13px; letter-spacing: 2px; margin-bottom: 10px; }
+
+  /* ───── STATS ───── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .stat-card {
+    background: #fff;
+    border: 1.5px solid rgba(124,92,252,0.18);
+    border-radius: 18px;
+    padding: 20px 14px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(124,92,252,0.07);
+  }
+  .stat-num {
+    font-size: 30px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #7C5CFC, #5B8EFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label { font-size: 11px; color: #9B8EC4; line-height: 1.5; }
+
+  /* ───── CTA SECTION ───── */
+  .cta-section {
+    background: linear-gradient(160deg, #EDE9FF 0%, #E8F0FF 100%);
+    padding: 64px 24px 140px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -30%; left: -20%;
+    width: 140%; height: 80%;
+    background: radial-gradient(ellipse, rgba(124,92,252,0.1) 0%, transparent 65%);
+  }
+  .cta-section .section-label { color: #5B4AC8; background: rgba(91,74,200,0.1); }
+  .cta-section .section-title { color: #1A1040; }
+  .cta-section .section-body { color: #6B5B95; max-width: 300px; margin: 0 auto 36px; }
+  .cta-btn {
+    background: linear-gradient(90deg, #7C5CFC 0%, #5B8EFF 100%);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 900;
+    padding: 18px 0;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 340px;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 8px 28px rgba(124,92,252,0.35);
+    letter-spacing: -0.01em;
+  }
+  .cta-sub { font-size: 12px; color: rgba(91,74,200,0.5); margin-top: 12px; }
+
+  /* ───── FIXED BAR ───── */
+  .fixed-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9999;
+    background: #fff;
+    border-top: 1px solid rgba(124,92,252,0.15);
+    padding: 12px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 -4px 20px rgba(124,92,252,0.08);
+    transition: transform 0.3s ease;
+  }
+  .fixed-bar-text { font-size: 13px; color: #6B5B95; line-height: 1.4; flex: 1; }
+  .fixed-bar-text strong { color: #1A1040; display: block; font-size: 14px; font-weight: 700; }
+  .fixed-bar-btn {
+    background: linear-gradient(90deg, #7C5CFC, #5B8EFF);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 900;
+    padding: 13px 22px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(124,92,252,0.3);
+  }
+
+  /* ───── MODAL ───── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,16,64,0.5);
+    z-index: 99998;
+    display: none;
+    align-items: flex-end;
+    backdrop-filter: blur(3px);
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-sheet {
+    background: #fff;
+    border-radius: 28px 28px 0 0;
+    padding: 28px 24px 48px;
+    width: 100%;
+    max-height: 85svh;
+    overflow-y: auto;
+    animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-handle {
+    width: 40px; height: 4px;
+    background: #E0D8F8;
+    border-radius: 100px;
+    margin: 0 auto 22px;
+  }
+  .modal-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #1A1040;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .modal-sub { font-size: 14px; color: #9B8EC4; margin-bottom: 28px; line-height: 1.6; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 13px; font-weight: 700; color: #3D2D80; margin-bottom: 7px; display: block; }
+  .form-input {
+    width: 100%;
+    border: 1.5px solid #DDD8F8;
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #1A1040;
+    background: #FAF8FF;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: #7C5CFC; background: #fff; }
+  .form-input::placeholder { color: #C4BAE8; }
+  .form-textarea { resize: none; height: 96px; line-height: 1.6; }
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 18px 0 22px;
+    font-size: 13px;
+    color: #9B8EC4;
+    line-height: 1.5;
+  }
+  .agree-row input[type="checkbox"] {
+    width: 18px; height: 18px;
+    flex-shrink: 0; margin-top: 1px;
+    accent-color: #7C5CFC;
+  }
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #7C5CFC, #5B8EFF);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 900;
+    padding: 17px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(124,92,252,0.3);
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: -0.01em;
+  }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ───── SUCCESS ───── */
+  .success-state { display: none; text-align: center; padding: 24px 0; }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, #7C5CFC, #5B8EFF);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 28px rgba(124,92,252,0.3);
+  }
+  .success-title { font-size: 22px; font-weight: 900; color: #1A1040; margin-bottom: 10px; }
+  .success-body { font-size: 14px; color: #9B8EC4; line-height: 1.75; }
+
+  /* ───── FOOTER ───── */
+  footer { background: #1A1040; padding: 40px 24px 100px; }
+  .footer-logo { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .footer-logo span { color: #9B7EFF; }
+  .footer-info { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.9; }
+  .footer-links { display: flex; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+  .footer-links a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <!-- hero.png 파일을 같은 폴더에 저장하면 자동으로 표시됩니다 -->
+  <div class="hero-image-wrap" id="heroImageWrap" style="display:none">
+    <img src="image/hero.png" alt="OutLearn 앱 화면" id="heroImage">
+    <button class="hero-cta" onclick="openModal()">30초 만에 내 첫 영어 릴스 만들기 →</button>
+  </div>
+  <div class="hero-image-placeholder" id="heroPlaceholder">
+    <span>📱</span>
+    hero.png를 같은 폴더에 저장하면<br>여기에 이미지가 표시돼요
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-dot"></div>
+    SCROLL
+  </div>
+</section>
+
+<!-- ═══ TICKER ═══ -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">오늘 배운 표현 → 내 문장</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">AI가 같이 만들어요</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">릴스 형식으로 저장</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">반복 복습 → 통암기</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">내일 바로 써먹기</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">오늘 배운 표현 → 내 문장</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">AI가 같이 만들어요</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">릴스 형식으로 저장</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">반복 복습 → 통암기</span><span class="ticker-dot">·</span>
+    <span class="ticker-item">내일 바로 써먹기</span><span class="ticker-dot">·</span>
+  </div>
+</div>
+
+<!-- ═══ PROBLEM ═══ -->
+<section class="section problem-bg">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-title">영어 공부했는데<br>왜 말이 안 나올까?</h2>
+  <div class="problem-quote">
+    "듀오링고 300일 했는데, 정작 외국인 앞에서 자기소개 하나를 못 했어요."
+  </div>
+  <p class="section-body">문제는 영어 실력이 아니에요.<br>배운 표현이 <strong>내 상황과 연결</strong>되지 않아서 입 밖으로 안 나오는 거예요.</p>
+  <ul class="problem-list">
+    <li>남의 예문만 외웠지, 내 말을 만든 적이 없다</li>
+    <li>GPT로 만든 문장, 저장도 복습도 안 된다</li>
+    <li>앱은 오래 했는데 자기소개가 아직도 어색하다</li>
+    <li>공부는 했는데 내일 쓸 문장이 없다</li>
+  </ul>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="section how-bg">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title">3단계로<br>내 말하기가 완성된다</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">상황을 알려주세요</div>
+        <div class="step-desc">내일 교류회 자기소개, 외국인 친구와 취미 얘기, 오리엔테이션 첫인사 — 내가 쓸 상황을 입력하면 돼요.</div>
+        <span class="step-tag">예) "내일 교환학생 오리엔테이션이 있어요"</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">AI와 함께 내 문장 완성</div>
+        <div class="step-desc">AI가 내 상황에 맞는 영어 문장을 제안해요. 마음에 들면 저장, 수정하고 싶으면 바로 바꿀 수 있어요.</div>
+        <span class="step-tag">개인화된 회화 문장 생성</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">릴스 영상으로 반복 복습</div>
+        <div class="step-desc">만든 문장이 숏폼 형식의 복습 영상으로 완성돼요. 자기 전에 3번만 보면 내일 바로 나와요.</div>
+        <span class="step-tag">통암기 → 1초 반응 발화</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURE ═══ -->
+<section class="feature-bg">
+  <div style="padding: 48px 24px 8px; text-align: center;">
+    <h2 style="font-size: clamp(20px, 5.5vw, 28px); font-weight: 900; color: #1A1040; line-height: 1.35; letter-spacing: -0.03em;">영어 공부 말고,<br>내일 할 말을 준비하세요.</h2>
+  </div>
+
+  <!-- 1: 텍스트 왼쪽 / 이미지 오른쪽 -->
+  <div class="feature-row">
+    <div class="feature-text">
+      <div class="feature-title">교재 주제가 아니라,<br>내일 쓸 주제로<br>시작합니다.</div>
+      <div class="feature-desc">자기소개, 취미, 전공, 첫인사, 스몰톡까지 내가 실제로 말할 상황을 고릅니다.</div>
+    </div>
+    <div class="feature-image">
+      <img src="image/1번 mock.png" alt="주제 선택">
+    </div>
+  </div>
+
+  <!-- 2: 이미지 왼쪽 / 텍스트 오른쪽 -->
+  <div class="feature-row reverse">
+    <div class="feature-text">
+      <div class="feature-title">AI와 대화하며,<br>내 말투의 영어 문장을<br>만듭니다.</div>
+      <div class="feature-desc">"외국인 버디랑 처음 만나요"처럼 상황을 말하면, 실제 대화에서 바로 쓸 수 있는 문장으로 바꿔줍니다.</div>
+    </div>
+    <div class="feature-image">
+      <img src="image/2번 mock.png" alt="AI 문장 생성">
+    </div>
+  </div>
+
+  <!-- 3: 텍스트 왼쪽 / 이미지 오른쪽 -->
+  <div class="feature-row">
+    <div class="feature-text">
+      <div class="feature-title">공부가 완료되면<br>문장으로 숏폼 영상이<br>생성됩니다.</div>
+      <div class="feature-desc">한국어 의도 → 영어 문장 → 따라 말하기 흐름으로 자기 전에도 가볍게 반복할 수 있어요.</div>
+    </div>
+    <div class="feature-image">
+      <img src="image/mock 3.png" alt="숏폼 영상">
+    </div>
+  </div>
+
+  <!-- 4: 이미지 왼쪽 / 텍스트 오른쪽 -->
+  <div class="feature-row reverse">
+    <div class="feature-text">
+      <div class="feature-title">공부한 문장이<br>내 콘텐츠로<br>저장됩니다.</div>
+      <div class="feature-desc">한 번 만든 문장은 보관함에 저장되고, 필요할 때 릴스처럼 다시 꺼내 봅니다.</div>
+    </div>
+    <div class="feature-image">
+      <img src="image/mock 4.png" alt="보관함">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESULT ═══ -->
+<section class="section result-bg">
+  <div class="section-label">The Result</div>
+  <h2 class="section-title">이런 변화를<br>약속해요</h2>
+  <div class="result-card">
+    <div class="result-card-title">질문 받자마자<br><span>1초 안에 문장이 나온다</span></div>
+    <ul class="result-list">
+      <li>머릿속에서 번역하지 않고 바로 뱉는 상태</li>
+      <li>내 취미, 자기소개, 오늘 있었던 일을 영어로 말할 수 있다</li>
+      <li>배운 표현이 '내 말'로 전환된다</li>
+      <li>공부한 흔적이 콘텐츠로 쌓인다</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ VS ═══ -->
+<section class="section vs-bg">
+  <div class="section-label">Why OutLearn</div>
+  <h2 class="section-title">기존 영어앱과<br>뭐가 다른가요?</h2>
+  <table class="vs-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>기존 앱</th>
+        <th>OutLearn</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>내 상황에 맞는 문장</td><td>✕</td><td>✓</td></tr>
+      <tr><td>AI와 함께 문장 만들기</td><td>✕</td><td>✓</td></tr>
+      <tr><td>릴스 형식 반복 복습</td><td>✕</td><td>✓</td></tr>
+      <tr><td>내일 바로 쓸 수 있는 문장</td><td>✕</td><td>✓</td></tr>
+      <tr><td>개인화된 커리큘럼</td><td>✕</td><td>✓</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ SOCIAL PROOF ═══ -->
+<section class="section proof-bg">
+  <div class="section-label">Early Feedback</div>
+  <h2 class="section-title">체험자들의<br>반응이에요</h2>
+  <div class="cards">
+    <div class="proof-card">
+      <div class="stars">★★★★★</div>
+      <div class="proof-card-quote">"교류회 전날 밤에 썼는데 다음날 자기소개가 진짜 자연스럽게 나왔어요. 이 서비스 없었으면 그냥 어버버 했을 것 같아요."</div>
+      <div class="proof-card-author">
+        <div class="proof-avatar">김</div>
+        <div>
+          <div class="proof-name">김지훈</div>
+          <div class="proof-role">교환학생 준비 중 · 23세</div>
+        </div>
+      </div>
+    </div>
+    <div class="proof-card">
+      <div class="stars">★★★★★</div>
+      <div class="proof-card-quote">"GPT로 문장 만들다가 흐지부지됐는데, OutLearn은 저장되고 반복 복습까지 되니까 달라요. 내 문장이 쌓이는 느낌이 진짜 신기해요."</div>
+      <div class="proof-card-author">
+        <div class="proof-avatar">이</div>
+        <div>
+          <div class="proof-name">이수연</div>
+          <div class="proof-role">외국인 교류 동아리 · 21세</div>
+        </div>
+      </div>
+    </div>
+    <div class="proof-card">
+      <div class="stars">★★★★★</div>
+      <div class="proof-card-quote">"듀오링고 1년 했을 때랑 비교가 안 돼요. 내가 실제로 쓸 말을 공부하니까 동기부여가 완전 달라요."</div>
+      <div class="proof-card-author">
+        <div class="proof-avatar">박</div>
+        <div>
+          <div class="proof-name">박서준</div>
+          <div class="proof-role">해외 인턴 준비 · 25세</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">94%</div>
+      <div class="stat-label">체험자 중 "다음날 실제로 썼다"</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3일</div>
+      <div class="stat-label">통암기까지 걸린 평균 시간</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="cta-section">
+  <div class="section-label">Limited Beta</div>
+  <h2 class="section-title">지금 체험단 신청하면<br>1달 무료로 드려요</h2>
+  <p class="section-body">신청 시 사용할 상황을 적어주시면<br>직접 내 문장 + 릴스 영상을 만들어서 보내드려요.</p>
+  <button class="cta-btn" onclick="openModal()">30초 만에 내 첫 영어 릴스 만들기 →</button>
+  <p class="cta-sub">선착순 마감 · 비용 없음 · 언제든 취소 가능</p>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-logo">Out<span>Learn</span></div>
+  <div class="footer-info">
+    오늘 배운 영어를 내 말하기 콘텐츠로<br>
+    contact@outlearn.kr<br>
+    © 2025 OutLearn. All rights reserved.
+  </div>
+  <div class="footer-links">
+    <a href="#">개인정보처리방침</a>
+    <a href="#">이용약관</a>
+  </div>
+</footer>
+
+<!-- ═══ FIXED BAR ═══ -->
+<div class="fixed-bar" id="fixedBar">
+  <div class="fixed-bar-text">
+    <strong>무료 체험단 모집 중</strong>
+    선착순 마감 전에 신청하세요
+  </div>
+  <button class="fixed-bar-btn" onclick="openModal()">신청하기</button>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div id="formState">
+      <div class="modal-title">무료 체험단 신청 🎬</div>
+      <div class="modal-sub">신청 후 24시간 내에 직접 문장을 만들어서 연락드려요.</div>
+      <div class="form-group">
+        <label class="form-label">이름</label>
+        <input class="form-input" id="inputName" type="text" placeholder="홍길동" maxlength="10">
+      </div>
+      <div class="form-group">
+        <label class="form-label">연락처</label>
+        <input class="form-input" id="inputPhone" type="tel" placeholder="010-0000-0000" maxlength="13">
+      </div>
+      <div class="form-group">
+        <label class="form-label">어떤 상황에서 영어가 필요하세요? <span style="color:#7C5CFC">(선택)</span></label>
+        <textarea class="form-input form-textarea" id="inputSituation" placeholder="예) 다음 주에 외국인 교류회가 있어요. 자기소개랑 취미 얘기를 영어로 하고 싶어요."></textarea>
+      </div>
+      <div class="agree-row">
+        <input type="checkbox" id="agreeCheck" checked>
+        <label for="agreeCheck">개인정보 수집 및 이용에 동의합니다. 수집된 정보는 체험단 운영 목적으로만 사용됩니다.</label>
+      </div>
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">체험단 신청하기</button>
+    </div>
+    <div class="success-state" id="successState">
+      <div class="success-icon">✓</div>
+      <div class="success-title">신청 완료!</div>
+      <div class="success-body">
+        24시간 내에 연락드릴게요.<br>
+        입력하신 상황을 바탕으로<br>직접 문장을 만들어 보내드려요. 🎬
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzvs7IVZBP8ht6OxeEBBEAu0IYy9fY9lZQP3KdAqy8jgbw-JayU1ZtEt1ZozWgt-b2f/exec';
+
+  // 히어로 이미지 로드 시도
+  const heroImg = document.getElementById('heroImage');
+  function showHeroImage() {
+    document.getElementById('heroImageWrap').style.display = 'block';
+    document.getElementById('heroPlaceholder').style.display = 'none';
+  }
+  function showHeroPlaceholder() {
+    document.getElementById('heroImageWrap').style.display = 'none';
+    document.getElementById('heroPlaceholder').style.display = 'flex';
+  }
+  heroImg.onload = showHeroImage;
+  heroImg.onerror = showHeroPlaceholder;
+  // 이미 캐시되어 로드된 경우 처리
+  if (heroImg.complete && heroImg.naturalWidth > 0) showHeroImage();
+  else if (heroImg.complete) showHeroPlaceholder();
+
+  document.getElementById('inputPhone').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length <= 3) e.target.value = v;
+    else if (v.length <= 7) e.target.value = v.slice(0,3) + '-' + v.slice(3);
+    else e.target.value = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7,11);
+  });
+
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) {
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  async function submitForm() {
+    const name = document.getElementById('inputName').value.trim();
+    const phone = document.getElementById('inputPhone').value.trim();
+    const situation = document.getElementById('inputSituation').value.trim();
+    const agreed = document.getElementById('agreeCheck').checked;
+
+    if (!name) { alert('이름을 입력해주세요.'); document.getElementById('inputName').focus(); return; }
+    if (phone.replace(/\D/g,'').length < 10) { alert('올바른 연락처를 입력해주세요.'); document.getElementById('inputPhone').focus(); return; }
+    if (!agreed) { alert('개인정보 수집 및 이용에 동의해주세요.'); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '신청 중...';
+
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('phone', phone);
+      formData.append('situation', situation);
+      formData.append('timestamp', new Date().toISOString());
+      await fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData, mode: 'no-cors' });
+      showSuccess();
+    } catch (err) {
+      alert('일시적인 오류가 발생했어요. 잠시 후 다시 시도해주세요.');
+      btn.disabled = false;
+      btn.textContent = '체험단 신청하기';
+    }
+  }
+
+  function showSuccess() {
+    document.getElementById('formState').style.display = 'none';
+    document.getElementById('successState').style.display = 'block';
+    document.getElementById('fixedBar').style.transform = 'translateY(120%)';
+  }
+</script>
+
+</body>
+</html>
