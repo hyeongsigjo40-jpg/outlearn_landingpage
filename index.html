@@ -32,7 +32,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 52px 24px 60px;
+    padding: 0;
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -82,22 +82,19 @@
   }
   .hero-image-wrap .hero-cta {
     position: absolute;
-    bottom: 15%;
+    bottom: 9.5%;
     left: 5%;
     right: 5%;
     transform: none;
     width: 90%;
     max-width: none;
     margin: 0;
-    white-space: nowrap;
-    font-size: 15px;
-    padding: 15px 20px;
-    opacity: 1;
-    background: linear-gradient(90deg, #9B6FFF 0%, #6B8EFF 100%);
-    box-shadow: 0 8px 32px rgba(124,92,252,0.45);
-    border-radius: 100px;
-    font-weight: 900;
-    color: #fff;
+    padding: 6% 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 0;
+    font-size: 0;
+    cursor: pointer;
   }
   /* 이미지 없을 때 플레이스홀더 */
   .hero-image-placeholder {
@@ -785,37 +782,6 @@
   </ul>
 </section>
 
-<!-- ═══ HOW IT WORKS ═══ -->
-<section class="section how-bg">
-  <div class="section-label">How it works</div>
-  <h2 class="section-title">3단계로<br>내 말하기가 완성된다</h2>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <div class="step-title">상황을 알려주세요</div>
-        <div class="step-desc">내일 교류회 자기소개, 외국인 친구와 취미 얘기, 오리엔테이션 첫인사 — 내가 쓸 상황을 입력하면 돼요.</div>
-        <span class="step-tag">예) "내일 교환학생 오리엔테이션이 있어요"</span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <div class="step-title">AI와 함께 내 문장 완성</div>
-        <div class="step-desc">AI가 내 상황에 맞는 영어 문장을 제안해요. 마음에 들면 저장, 수정하고 싶으면 바로 바꿀 수 있어요.</div>
-        <span class="step-tag">개인화된 회화 문장 생성</span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <div class="step-title">릴스 영상으로 반복 복습</div>
-        <div class="step-desc">만든 문장이 숏폼 형식의 복습 영상으로 완성돼요. 자기 전에 3번만 보면 내일 바로 나와요.</div>
-        <span class="step-tag">통암기 → 1초 반응 발화</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ═══ FEATURE ═══ -->
 <section class="feature-bg">
@@ -848,7 +814,7 @@
   <!-- 3: 텍스트 왼쪽 / 이미지 오른쪽 -->
   <div class="feature-row">
     <div class="feature-text">
-      <div class="feature-title">공부가 완료되면<br>문장으로 숏폼 영상이<br>생성됩니다.</div>
+      <div class="feature-title">공부한 문장이<br>숏폼 영상으로<br>저장돼요.</div>
       <div class="feature-desc">한국어 의도 → 영어 문장 → 따라 말하기 흐름으로 자기 전에도 가볍게 반복할 수 있어요.</div>
     </div>
     <div class="feature-image">
@@ -859,7 +825,7 @@
   <!-- 4: 이미지 왼쪽 / 텍스트 오른쪽 -->
   <div class="feature-row reverse">
     <div class="feature-text">
-      <div class="feature-title">공부한 문장이<br>내 콘텐츠로<br>저장됩니다.</div>
+      <div class="feature-title">숏폼 영상으로<br>반복 복습</div>
       <div class="feature-desc">한 번 만든 문장은 보관함에 저장되고, 필요할 때 릴스처럼 다시 꺼내 봅니다.</div>
     </div>
     <div class="feature-image">
